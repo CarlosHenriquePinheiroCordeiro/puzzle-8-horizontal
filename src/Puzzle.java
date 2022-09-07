@@ -1,4 +1,6 @@
-import java.lang.reflect.Array;
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * Classe responsável por representar o Puzzle
@@ -7,7 +9,8 @@ import java.lang.reflect.Array;
  */
 public class Puzzle {
 
-	private int[][] puzzle = new int[3][3];
+	private int[][] puzzle       = new int[3][3];
+	private int[] posicaoLivre   = null;
 	
 	public Puzzle(int topEsq, int top, int topDir, int midEsq, int mid, int midDir, int bottomEsq, int bottom, int bottomDir) {
 		this.puzzle[EPuzzle.TOP][EPuzzle.ESQ] 	 = topEsq;
@@ -19,10 +22,6 @@ public class Puzzle {
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.ESQ] = bottomEsq;
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.MID] = bottom;
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.DIR] = bottomDir;
-	}
-	
-	public int[][] getPuzzle() {
-		return this.puzzle;
 	}
 	
 	/**
@@ -38,12 +37,31 @@ public class Puzzle {
 		}
 		return resultado;
 	}
-	
+
 	/**
 	 * Retorna a posição livre do puzzle
 	 * @return
 	 */
 	public int[] getPosicaoLivre() {
+		if (this.posicaoLivre == null) {
+			setPosicaoLivre(achaPosicaoLivre());
+		}
+		return this.posicaoLivre;
+	}
+	
+	/**
+	 * Define a posição livre do puzzle
+	 * @param posicaoLivre
+	 */
+	public void setPosicaoLivre(int[] posicaoLivre) {
+		this.posicaoLivre = posicaoLivre;
+	}
+	
+	/**
+	 * Procura a posição livre do puzzle
+	 * @return
+	 */
+	public int[] achaPosicaoLivre() {
 		int[] posicaoLivre = new int[2];
 		int i = 0;
 		int j = 0;
@@ -67,6 +85,8 @@ public class Puzzle {
 		int valor = this.puzzle[i][j];
 		this.puzzle[i][j] = 0;
 		this.puzzle[i-1][j] = valor;
+		int[] posicaoLivre = {i, j};
+		setPosicaoLivre(posicaoLivre);
 	}
 	
 	/**
@@ -78,6 +98,8 @@ public class Puzzle {
 		int valor = this.puzzle[i][j];
 		this.puzzle[i][j] = 0;
 		this.puzzle[i+1][j] = valor;
+		int[] posicaoLivre = {i, j};
+		setPosicaoLivre(posicaoLivre);
 	}
 	
 	/**
@@ -89,6 +111,8 @@ public class Puzzle {
 		int valor = this.puzzle[i][j];
 		this.puzzle[i][j] = 0;
 		this.puzzle[i][j-1] = valor;
+		int[] posicaoLivre = {i, j};
+		setPosicaoLivre(posicaoLivre);
 	}
 	
 	/**
@@ -100,6 +124,12 @@ public class Puzzle {
 		int valor = this.puzzle[i][j];
 		this.puzzle[i][j] = 0;
 		this.puzzle[i][j+1] = valor;
+		int[] posicaoLivre = {i, j};
+		setPosicaoLivre(posicaoLivre);
+	}
+
+	public int[][] getPuzzle() {
+		return this.puzzle;
 	}
 
 	
