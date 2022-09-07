@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Operacoes {
 
-	private static List<ArrayList<int[]>> operacoes = null;
+	private static List<ArrayList<ArrayList<int[]>>> operacoes = null;
 	
 	private Operacoes() {}
 	
@@ -11,9 +11,9 @@ public class Operacoes {
 	 * Retorna a instância das operações possíveis
 	 * @return
 	 */
-	public static List<ArrayList<int[]>> getInstance() {
+	public static List<ArrayList<ArrayList<int[]>>> getInstance() {
 		if (operacoes == null) {
-			operacoes = new ArrayList<ArrayList<int[]>>();
+			operacoes = new ArrayList<ArrayList<ArrayList<int[]>>>();
 			buildOperacoes();
 		}
 		return operacoes;
@@ -32,15 +32,17 @@ public class Operacoes {
 	 * Constrói as operações possíveis da primeira linha do tabuleiro, com base na posição livre
 	 */
 	private static void buildOperacoesTop() {
-		addOperacoes1x1();
-		addOperacoes1x2();
-		addOperacoes1x3();
+		ArrayList<ArrayList<int[]>> ops = new ArrayList<ArrayList<int[]>>();
+		ops.add(addOperacoes1x1());
+		ops.add(addOperacoes1x2());
+		ops.add(addOperacoes1x3());
+		operacoes.add(ops);
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 1x1
 	 */
-	private static void addOperacoes1x1() {
+	private static ArrayList<int[]> addOperacoes1x1() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -55,13 +57,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_ESQ;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 1x2
 	 */
-	private static void addOperacoes1x2() {
+	private static ArrayList<int[]> addOperacoes1x2() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -82,13 +84,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_ESQ;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 1x3
 	 */
-	private static void addOperacoes1x3() {
+	private static ArrayList<int[]> addOperacoes1x3() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -103,22 +105,24 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_CIMA;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Constrói as operações possíveis da segunda linha do tabuleiro, com base na posição livre
 	 */
 	private static void buildOperacoesMid() {
-		addOperacoes2x1();
-		addOperacoes2x2();
-		addOperacoes2x3();
+		ArrayList<ArrayList<int[]>> ops = new ArrayList<ArrayList<int[]>>();
+		ops.add(addOperacoes2x1());
+		ops.add(addOperacoes2x2());
+		ops.add(addOperacoes2x3());
+		operacoes.add(ops);
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 2x1
 	 */
-	private static void addOperacoes2x1() {
+	private static ArrayList<int[]> addOperacoes2x1() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -139,13 +143,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_CIMA;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 2x2
 	 */
-	private static void addOperacoes2x2() {
+	private static ArrayList<int[]> addOperacoes2x2() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -172,14 +176,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_ESQ;
 		ops.add(operacao);
 
-
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 2x3
 	 */
-	private static void addOperacoes2x3() {
+	private static ArrayList<int[]> addOperacoes2x3() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -200,22 +203,24 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_CIMA;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Constrói as operações possíveis da terceira linha do tabuleiro, com base na posição livre
 	 */
 	private static void buildOperacoesBottom() {
-		addOperacoes3x1();
-		addOperacoes3x2();
-		addOperacoes3x3();
+		ArrayList<ArrayList<int[]>> ops = new ArrayList<ArrayList<int[]>>();
+		ops.add(addOperacoes3x1());
+		ops.add(addOperacoes3x2());
+		ops.add(addOperacoes3x3());
+		operacoes.add(ops);
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 3x1
 	 */
-	private static void addOperacoes3x1() {
+	private static ArrayList<int[]> addOperacoes3x1() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -230,13 +235,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_ESQ;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 3x2
 	 */
-	private static void addOperacoes3x2() {
+	private static ArrayList<int[]> addOperacoes3x2() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -258,14 +263,13 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_ESQ;
 		ops.add(operacao);
 		
-
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	/**
 	 * Operações para quando a posição livre é 3x3
 	 */
-	private static void addOperacoes3x3() {
+	private static ArrayList<int[]> addOperacoes3x3() {
 		ArrayList<int[]> ops = new ArrayList<int[]>();
 		
 		int[] operacao = new int[3]; 
@@ -280,7 +284,7 @@ public class Operacoes {
 		operacao[2] = EPuzzle.MOVE_DIR;
 		ops.add(operacao);
 
-		operacoes.add(ops); 
+		return ops;
 	}
 	
 	
