@@ -17,7 +17,7 @@ public interface EPuzzle {
 	public static final int MOVE_DIR   = 3;
 	
 	public static final String[] operacoes = {
-		"CIMA", "BAIXO", "ESQUERDA", "DIREITA"	
+		"_cima", "_baixo", "_esquerda", "_direita"	
 	};
 	
 	public static final String[] linhas = {

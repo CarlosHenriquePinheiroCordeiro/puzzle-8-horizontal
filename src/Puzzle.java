@@ -11,17 +11,57 @@ public class Puzzle {
 
 	private int[][] puzzle       = new int[3][3];
 	private int[] posicaoLivre   = null;
+	private String acao 	     = null;
 	
-	public Puzzle(int topEsq, int top, int topDir, int midEsq, int mid, int midDir, int bottomEsq, int bottom, int bottomDir) {
-		this.puzzle[EPuzzle.TOP][EPuzzle.ESQ] 	 = topEsq;
-		this.puzzle[EPuzzle.TOP][EPuzzle.MID]  	 = top;
-		this.puzzle[EPuzzle.TOP][EPuzzle.DIR] 	 = topDir;
-		this.puzzle[EPuzzle.MID][EPuzzle.ESQ] 	 = midEsq;
-		this.puzzle[EPuzzle.MID][EPuzzle.MID] 	 = mid;
-		this.puzzle[EPuzzle.MID][EPuzzle.DIR] 	 = midDir;
-		this.puzzle[EPuzzle.BOTTOM][EPuzzle.ESQ] = bottomEsq;
-		this.puzzle[EPuzzle.BOTTOM][EPuzzle.MID] = bottom;
-		this.puzzle[EPuzzle.BOTTOM][EPuzzle.DIR] = bottomDir;
+	/**
+	 * Gera um puzzle a partir de um resultado mostrado
+	 * @param resultadoPuzzle
+	 */
+	public Puzzle(String resultadoPuzzle) {
+		setNumerosPuzzle(resultadoPuzzle);
+	}
+	
+	/**
+	 * Gera um puzzle já realizando alguma operação
+	 * @param resultadoPuzzle
+	 * @param operacao
+	 * @param i
+	 * @param j
+	 */
+	public Puzzle(String resultadoPuzzle, int operacao, int i, int j) {
+		setNumerosPuzzle(resultadoPuzzle);
+		setAcao(operacao, i, j);
+		switch (operacao) {
+			case EPuzzle.MOVE_CIMA:
+				moveUp(i, j);
+				break;
+			case EPuzzle.MOVE_BAIXO:
+				moveDown(i, j);
+				break;
+			case EPuzzle.MOVE_ESQ:
+				moveEsq(i, j);
+				break;
+			case EPuzzle.MOVE_DIR:
+				moveDir(i, j);
+				break;
+		}
+	}
+	
+	/**
+	 * A partir do resultado gera os números do puzzle
+	 * @param resultadoPuzzle
+	 */
+	public void setNumerosPuzzle(String resultadoPuzzle) {
+		String[] resultado = resultadoPuzzle.split("");
+		this.puzzle[EPuzzle.TOP][EPuzzle.ESQ] 	 = Integer.parseInt(resultado[0]);
+		this.puzzle[EPuzzle.TOP][EPuzzle.MID]  	 = Integer.parseInt(resultado[1]);
+		this.puzzle[EPuzzle.TOP][EPuzzle.DIR] 	 = Integer.parseInt(resultado[2]);
+		this.puzzle[EPuzzle.MID][EPuzzle.ESQ] 	 = Integer.parseInt(resultado[3]);
+		this.puzzle[EPuzzle.MID][EPuzzle.MID] 	 = Integer.parseInt(resultado[4]);
+		this.puzzle[EPuzzle.MID][EPuzzle.DIR] 	 = Integer.parseInt(resultado[5]);
+		this.puzzle[EPuzzle.BOTTOM][EPuzzle.ESQ] = Integer.parseInt(resultado[6]);
+		this.puzzle[EPuzzle.BOTTOM][EPuzzle.MID] = Integer.parseInt(resultado[7]);
+		this.puzzle[EPuzzle.BOTTOM][EPuzzle.DIR] = Integer.parseInt(resultado[8]);
 	}
 	
 	/**
@@ -30,8 +70,8 @@ public class Puzzle {
 	 */
 	public String getResultadoPuzzle() {
 		String resultado = "";
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
+		for (int i = 0; i <= 2; i++) {
+			for (int j = 0; j <= 2; j++) {
 				resultado += ""+this.puzzle[i][j];
 			}
 		}
@@ -130,6 +170,14 @@ public class Puzzle {
 
 	public int[][] getPuzzle() {
 		return this.puzzle;
+	}
+	
+	public void setAcao(int operacao, int i, int j) {
+		this.acao = this.puzzle[i][j]+""+EPuzzle.operacoes[operacao];
+	}
+	
+	public String getAcao() {
+		return this.acao+"   ";
 	}
 
 	
