@@ -7,7 +7,7 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Puzzle puzzle = new Puzzle("102345678");
+		Puzzle puzzle = new Puzzle("103425678");
 		PuzzleHorizontal resolver = new PuzzleHorizontal(puzzle);
 		System.out.println(resolver.resolvePuzzle());
 	}

@@ -103,13 +103,14 @@ public class Puzzle {
 	 */
 	public int[] achaPosicaoLivre() {
 		int[] posicaoLivre = new int[2];
-		int i = 0;
-		int j = 0;
-		for (i = 0; i < 2; i++) {
-			for (j = 0; j < 2; j++) {
+		int i;
+		int j;
+		for (i = 0; i <= 2; i++) {
+			for (j = 0; j <= 2; j++) {
 				if (this.puzzle[i][j] == 0) {
 					posicaoLivre[0] = i;
 					posicaoLivre[1] = j;
+					return posicaoLivre;
 				}
 			}
 		}
