@@ -1,18 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class PuzzleHorizontal {
 	
-	private List<String> visitados 	    = null;
-	private List<Puzzle> visitar 	    = null;
-	private String 		 estadoDesejado = "123405678";
+	private List<String>  resultados     = new ArrayList<String>();
+	private List<Puzzle>  visitados      = new ArrayList<Puzzle>();
+	private Queue<Puzzle> visitar 		 = new LinkedList<Puzzle>();
+	private String 		  estadoDesejado = "123405678";
 	
 	/**
 	 * Dá início a resolução do Puzzle
 	 * @return
 	 */
 	public String resolvePuzzle() {
-		return resolve(visitar.get(0));
+		return resolve(visitar.peek());
 	}
 	
 	/**
@@ -23,9 +26,8 @@ public class PuzzleHorizontal {
 	private String resolve(Puzzle puzzle) {
 		if (!isVisitado(puzzle)) {
 			String resultadoPuzzle = puzzle.getResultadoPuzzle();
-			visitados.add(resultadoPuzzle);
-			Puzzle proximo = visitar.get(0);
-			visitar.remove(0);
+			System.out.println("Ação: "+puzzle.getAcao()+" - Resultado: "+resultadoPuzzle);
+			resultados.add(resultadoPuzzle);
 			if (resultadoPuzzle == estadoDesejado) {
 				return puzzle.getAcao();
 			}
@@ -34,9 +36,9 @@ public class PuzzleHorizontal {
 				Puzzle novoPuzzle = new Puzzle(resultadoPuzzle, operacoes[2], operacoes[0], operacoes[1]);
 				visitar.add(novoPuzzle);
 			}
-			resolve(proximo);
 		}
-		return null;
+		Puzzle proximo = visitar.poll();
+		return proximo.getAcao()+"\n"+resolve(proximo);
 	}
 	
 	/**
@@ -45,41 +47,11 @@ public class PuzzleHorizontal {
 	 * @return
 	 */
 	public boolean isVisitado(Puzzle puzzle) {
-		return getVisitados().contains(puzzle.getResultadoPuzzle());
+		return resultados.contains(puzzle.getResultadoPuzzle());
 	}
 	
 	public PuzzleHorizontal(Puzzle puzzleInicial) {
-		getVisitar().add(puzzleInicial);
-	}
-	
-	public List<String> getVisitados() {
-		if (this.visitados == null) {
-			this.visitados = new ArrayList<String>();
-		}
-		return this.visitados;
-	}
-	
-	public void setVisitados(List<String> visitados) {
-		this.visitados = visitados;
-	}
-	
-	public List<Puzzle> getVisitar() {
-		if (this.visitar == null) {
-			this.visitar = new ArrayList<Puzzle>();
-		}
-		return this.visitar;
-	}
-	
-	public void setVisitar(List<Puzzle> visitar) {
-		this.visitar = visitar;
-	}
-	
-	public String getEstadoDesejado() {
-		return estadoDesejado;
-	}
-	
-	public void setEstadoDesejado(String estadoDesejado) {
-		this.estadoDesejado = estadoDesejado;
+		visitar.add(puzzleInicial);
 	}
 	
 	
