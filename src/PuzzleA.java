@@ -1,5 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -102,7 +100,7 @@ public class PuzzleA {
 	public int getDistanciaPecaEstadoDesejado(Puzzle puzzle, int peca) {
 		int[] locPeca 	      = puzzle.getLocalizacaoPeca(peca);
 		int[] locPecaDesejado = puzzleEstadoDesejado.getLocalizacaoPeca(peca);
-		return Math.abs((locPeca[0] - locPecaDesejado[0]) + (locPeca[1] - locPecaDesejado[1]));
+		return Math.abs(locPeca[0] - locPecaDesejado[0]) + Math.abs(locPeca[1] - locPecaDesejado[1]);
 	}
 	
 	public PuzzleA(Puzzle puzzle) {

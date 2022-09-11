@@ -7,9 +7,10 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Puzzle puzzle = new Puzzle("105423678");
+		Puzzle puzzle = new Puzzle("135706824");
 		PuzzleA puzzleA = new PuzzleA(puzzle);
 		System.out.println(puzzleA.resolvePuzzle());
 	}
+
 
 }
