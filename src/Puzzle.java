@@ -12,6 +12,10 @@ public class Puzzle {
 	private int[][] puzzle       = new int[3][3];
 	private int[] posicaoLivre   = null;
 	private String acao 	     = null;
+	private Puzzle f1 			 = null;
+	private Puzzle f2 			 = null;
+	private Puzzle f3 			 = null;
+	private Puzzle f4 			 = null;
 	
 	/**
 	 * Gera um puzzle a partir de um resultado mostrado
@@ -178,6 +182,46 @@ public class Puzzle {
 	
 	public String getAcao() {
 		return this.acao+"   ";
+	}
+
+	public Puzzle getF1() {
+		return f1;
+	}
+
+	public void setF1(Puzzle f1) {
+		this.f1 = f1;
+	}
+
+	public Puzzle getF2() {
+		return f2;
+	}
+
+	public void setF2(Puzzle f2) {
+		this.f2 = f2;
+	}
+
+	public Puzzle getF3() {
+		return f3;
+	}
+
+	public void setF3(Puzzle f3) {
+		this.f3 = f3;
+	}
+
+	public Puzzle getF4() {
+		return f4;
+	}
+
+	public void setF4(Puzzle f4) {
+		this.f4 = f4;
+	}
+
+	public void setPuzzle(int[][] puzzle) {
+		this.puzzle = puzzle;
+	}
+
+	public void setAcao(String acao) {
+		this.acao = acao;
 	}
 
 	
