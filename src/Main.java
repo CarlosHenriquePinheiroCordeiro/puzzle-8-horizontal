@@ -7,9 +7,9 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Puzzle puzzle = new Puzzle("103425678");
-		PuzzleHorizontal resolver = new PuzzleHorizontal(puzzle);
-		System.out.println(resolver.resolvePuzzle());
+		Puzzle puzzle = new Puzzle("105423678");
+		PuzzleA puzzleA = new PuzzleA(puzzle);
+		System.out.println(puzzleA.resolvePuzzle());
 	}
 
 }

@@ -7,11 +7,8 @@ public class Puzzle {
 
 	private int[][] puzzle       = new int[3][3];
 	private int[] posicaoLivre   = null;
-	private String acao 	     = null;
-	private Puzzle f1 			 = null;
-	private Puzzle f2 			 = null;
-	private Puzzle f3 			 = null;
-	private Puzzle f4 			 = null;
+	private String acao 	     = "";
+	private Puzzle filho 	     = null;
 	
 	/**
 	 * Gera um puzzle a partir de um resultado mostrado
@@ -62,6 +59,25 @@ public class Puzzle {
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.ESQ] = Integer.parseInt(resultado[6]);
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.MID] = Integer.parseInt(resultado[7]);
 		this.puzzle[EPuzzle.BOTTOM][EPuzzle.DIR] = Integer.parseInt(resultado[8]);
+	}
+	
+	/**
+	 * Retorna o par ordenado da peça desejada do puzzle
+	 * @param peca
+	 * @return
+	 */
+	public int[] getLocalizacaoPeca(int peca) {
+		int[] localizacao = new int[2];
+		for (int i = 0; i <= 2; i++) {
+			for (int j = 0; j <= 2; j++) {
+				if (puzzle[i][j] == peca) {
+					localizacao[0] = i;
+					localizacao[1] = j;
+					return localizacao;
+				}
+			}
+		}
+		return localizacao;
 	}
 	
 	/**
@@ -178,39 +194,15 @@ public class Puzzle {
 	}
 	
 	public String getAcao() {
-		return this.acao+"   ";
+		return this.acao;
 	}
 
-	public Puzzle getF1() {
-		return f1;
+	public Puzzle getFilho() {
+		return filho;
 	}
 
-	public void setF1(Puzzle f1) {
-		this.f1 = f1;
-	}
-
-	public Puzzle getF2() {
-		return f2;
-	}
-
-	public void setF2(Puzzle f2) {
-		this.f2 = f2;
-	}
-
-	public Puzzle getF3() {
-		return f3;
-	}
-
-	public void setF3(Puzzle f3) {
-		this.f3 = f3;
-	}
-
-	public Puzzle getF4() {
-		return f4;
-	}
-
-	public void setF4(Puzzle f4) {
-		this.f4 = f4;
+	public void setFilho(Puzzle filho) {
+		this.filho = filho;
 	}
 
 	public void setPuzzle(int[][] puzzle) {
