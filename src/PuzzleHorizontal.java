@@ -15,7 +15,7 @@ public class PuzzleHorizontal {
 	 * @return
 	 */
 	public String resolvePuzzle() {
-		return resolve(visitar.peek());
+		return resolve(visitar.poll());
 	}
 	
 	/**
@@ -26,9 +26,8 @@ public class PuzzleHorizontal {
 	private String resolve(Puzzle puzzle) {
 		if (!isVisitado(puzzle)) {
 			String resultadoPuzzle = puzzle.getResultadoPuzzle();
-			System.out.println("Ação: "+puzzle.getAcao()+" - Resultado: "+resultadoPuzzle);
 			resultados.add(resultadoPuzzle);
-			if (resultadoPuzzle == estadoDesejado) {
+			if (resultadoPuzzle.equals(estadoDesejado)) {
 				return puzzle.getAcao();
 			}
 			int[] posicaoLivre = puzzle.getPosicaoLivre();
@@ -38,7 +37,7 @@ public class PuzzleHorizontal {
 			}
 		}
 		Puzzle proximo = visitar.poll();
-		return proximo.getAcao()+"\n"+resolve(proximo);
+		return resolve(proximo);
 	}
 	
 	/**
