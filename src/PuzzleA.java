@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Classe responsável pela resolução do puzzle pelo A*
@@ -38,17 +41,54 @@ public class PuzzleA {
 	 * @return
 	 */
 	private Puzzle getFilhoHeuristicaPuzzle(Puzzle puzzle) {
-		Hashtable<Integer, Puzzle> filhos = new Hashtable<Integer, Puzzle>();
+		Hashtable<Integer, List<Puzzle>> filhos = getDescendentesPorHeuristica(puzzle);
+		List<Integer> keys = Collections.list(filhos.keys());
+		Collections.sort(keys);
+		return getMenorFilhoHeuristica(filhos.get(keys.get(0)));
+	}
+	
+	/**
+	 * Retorna o melhor filho de acordo com a heurística, inclusive em caso de empate heurístico
+	 * @param empate
+	 * @return
+	 */
+	private Puzzle getMenorFilhoHeuristica(List<Puzzle> empate) {
+		if (empate.size() == 1) {
+			return empate.get(0);
+		}
+		Hashtable<Integer, Puzzle> filhosEmpate = new Hashtable<Integer, Puzzle>();
+		for (Puzzle filho : empate) {
+			Hashtable<Integer, List<Puzzle>> filhos = getDescendentesPorHeuristica(filho);
+			List<Integer> keys = Collections.list(filhos.keys());
+			Collections.sort(keys);
+			filhosEmpate.put(keys.get(0), filho);
+		}
+		List<Integer> keys = Collections.list(filhosEmpate.keys());
+		Collections.sort(keys);
+		return filhosEmpate.get(keys.get(0));
+	}
+	
+	/**
+	 * Retorna os descentendes classificados por heurística
+	 * @param puzzle
+	 * @return
+	 */
+	private Hashtable<Integer, List<Puzzle>> getDescendentesPorHeuristica(Puzzle puzzle) {
+		Hashtable<Integer, List<Puzzle>> filhos = new Hashtable<Integer, List<Puzzle>>();
 		int[] posicaoLivre = puzzle.getPosicaoLivre();
-		int menorHeuristica = 50;
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
 			int heuristica = getHeuristica(novoPuzzle);
-			filhos.put(heuristica, novoPuzzle);
-			if (heuristica < menorHeuristica)
-				menorHeuristica = heuristica;
+			
+			if (filhos.containsKey(heuristica)) {
+				filhos.get(heuristica).add(novoPuzzle);
+			} else {
+				List<Puzzle> novo = new ArrayList<Puzzle>();
+				novo.add(novoPuzzle);
+				filhos.put(heuristica, novo);
+			}
 		}
-		return filhos.get(menorHeuristica);
+		return filhos;
 	}
 	
 	/**
