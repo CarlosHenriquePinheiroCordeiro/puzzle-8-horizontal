@@ -13,6 +13,7 @@ public class PuzzleA {
 	private Puzzle        puzzle 	           = null;
 	private String        estadoDesejado       = "123405678";
 	private Puzzle 		  puzzleEstadoDesejado = null;
+	private List<String>  visitados 		   = new ArrayList<String>();
 	
 	/**
 	 * Resolve o puzzle e retorna o caminho para a resolução
@@ -28,9 +29,11 @@ public class PuzzleA {
 	 * @return
 	 */
 	private String resolve(Puzzle puzzle) {
-		if (puzzle.getResultadoPuzzle().equals(estadoDesejado)) {
+		String resultado = puzzle.getResultadoPuzzle();
+		if (resultado.equals(estadoDesejado)) {
 			return puzzle.getAcao();
 		}
+		visitados.add(resultado);
 		puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
 		return puzzle.getAcao()+" "+resolve(puzzle.getFilho());
 	}
@@ -78,14 +81,18 @@ public class PuzzleA {
 		int[] posicaoLivre = puzzle.getPosicaoLivre();
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
-			int heuristica = getHeuristica(novoPuzzle);
-			
-			if (filhos.containsKey(heuristica)) {
-				filhos.get(heuristica).add(novoPuzzle);
-			} else {
-				List<Puzzle> novo = new ArrayList<Puzzle>();
-				novo.add(novoPuzzle);
-				filhos.put(heuristica, novo);
+			String resultadoNovo = novoPuzzle.getResultadoPuzzle();
+			if (!isVisitado(resultadoNovo)) {
+				visitados.add(resultadoNovo);
+				int heuristica = getHeuristica(novoPuzzle);
+				
+				if (filhos.containsKey(heuristica)) {
+					filhos.get(heuristica).add(novoPuzzle);
+				} else {
+					List<Puzzle> novo = new ArrayList<Puzzle>();
+					novo.add(novoPuzzle);
+					filhos.put(heuristica, novo);
+				}
 			}
 		}
 		return filhos;
@@ -141,6 +148,14 @@ public class PuzzleA {
 		int[] locPeca 	      = puzzle.getLocalizacaoPeca(peca);
 		int[] locPecaDesejado = puzzleEstadoDesejado.getLocalizacaoPeca(peca);
 		return Math.abs(locPeca[0] - locPecaDesejado[0]) + Math.abs(locPeca[1] - locPecaDesejado[1]);
+	}
+	
+	/**
+	 * Retorna se o resultado enviado já foi encontrado pela busca
+	 * @param resultadoPuzzle
+	 */
+	public boolean isVisitado(String resultadoPuzzle) {
+		return visitados.contains(resultadoPuzzle);
 	}
 	
 	public PuzzleA(Puzzle puzzle) {
