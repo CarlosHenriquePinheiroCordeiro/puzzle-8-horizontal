@@ -1,5 +1,3 @@
-import java.util.Hashtable;
-
 /**
  * Atividade para componente curricular Inteligência Artificial
  * Busca horizontal e heurística para a resolução do Puzzle8
