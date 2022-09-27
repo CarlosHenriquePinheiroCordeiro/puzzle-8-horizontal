@@ -7,7 +7,9 @@ public class Puzzle {
 
 	private int[][] puzzle       = new int[3][3];
 	private int[] posicaoLivre   = null;
+	private String resultado     = null; 
 	private String acao 	     = "";
+	private Puzzle pai 			 = null;
 	private Puzzle filho 	     = null;
 	
 	/**
@@ -42,6 +44,7 @@ public class Puzzle {
 				moveDir(i, j);
 				break;
 		}
+		this.resultado = geraResultado();
 	}
 	
 	/**
@@ -84,7 +87,7 @@ public class Puzzle {
 	 * Retorna o resultado do Puzzle
 	 * @return
 	 */
-	public String getResultadoPuzzle() {
+	public String geraResultado() {
 		String resultado = "";
 		for (int i = 0; i <= 2; i++) {
 			for (int j = 0; j <= 2; j++) {
@@ -92,6 +95,17 @@ public class Puzzle {
 			}
 		}
 		return resultado;
+	}
+	
+	/**
+	 * Retorna o resultado do Puzzle
+	 * @return
+	 */
+	public String getResultadoPuzzle() {
+		if (this.resultado == null) {
+			this.resultado = geraResultado();
+		}
+		return this.resultado;
 	}
 
 	/**
@@ -195,6 +209,14 @@ public class Puzzle {
 	
 	public String getAcao() {
 		return this.acao;
+	}
+
+	public Puzzle getPai() {
+		return pai;
+	}
+
+	public void setPai(Puzzle pai) {
+		this.pai = pai;
 	}
 
 	public Puzzle getFilho() {

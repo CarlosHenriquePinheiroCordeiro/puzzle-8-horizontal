@@ -29,6 +29,7 @@ public class PuzzleA {
 	 * @return
 	 */
 	private String resolve(Puzzle puzzle) {
+		String resultado = puzzle.getResultadoPuzzle();
 		if (puzzle.getResultadoPuzzle().equals(estadoDesejado)) {
 			return puzzle.getAcao();
 		}
@@ -67,12 +68,37 @@ public class PuzzleA {
 			List<Integer> keys = Collections.list(filhos.keys());
 			Collections.sort(keys);
 			filhosEmpate.put(keys.get(0), filho);
-			melhoresFilhos.put(keys.get(0), filhos.get(keys.get(0)));
+			for (int chave : keys) {
+				melhoresFilhos.put(chave, filhos.get(chave));
+			}
 		}
-		List<Integer> keys = Collections.list(filhosEmpate.keys());
-		Collections.sort(keys);
-		filhosEmpate.get(keys.get(0)).setFilho(getMenorFilhoHeuristica(melhoresFilhos.get(keys.get(0))));
-		return filhosEmpate.get(keys.get(0));
+		List<Integer> keysEmpate = Collections.list(filhosEmpate.keys());
+		Collections.sort(keysEmpate);
+		filtraMelhoresFilhos(melhoresFilhos);
+		List<Integer> keysMelhoresFilhos = Collections.list(melhoresFilhos.keys());
+		Collections.sort(keysMelhoresFilhos);
+		filhosEmpate.get(keysEmpate.get(0)).setFilho(getMenorFilhoHeuristica(melhoresFilhos.get(keysMelhoresFilhos.get(0))));
+		return filhosEmpate.get(keysEmpate.get(0));
+	}
+	
+	/**
+	 * Filtra os melhores filhos para um desempate, para evitar o loop de "vai e volta" de operações
+	 * @param melhoresFilhos
+	 * @return
+	 */
+	private Hashtable<Integer, List<Puzzle>> filtraMelhoresFilhos(Hashtable<Integer, List<Puzzle>> melhoresFilhos) {
+		for (int chave : Collections.list(melhoresFilhos.keys())) {
+			int tamanho = melhoresFilhos.get(chave).size();
+			for (int i = 0; i < tamanho; i++) {
+				if (melhoresFilhos.get(chave).get(i).getResultadoPuzzle().equals(melhoresFilhos.get(chave).get(i).getPai().getPai().getResultadoPuzzle())) {
+					melhoresFilhos.get(chave).remove(i);
+				}
+			}
+			if (melhoresFilhos.get(chave).isEmpty()) {
+				melhoresFilhos.remove(chave);
+			}
+		}
+		return melhoresFilhos;
 	}
 	
 	/**
@@ -85,16 +111,16 @@ public class PuzzleA {
 		int[] posicaoLivre = puzzle.getPosicaoLivre();
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
-			if (!visitados.contains(novoPuzzle.getResultadoPuzzle())) {
-				int heuristica = getHeuristica(novoPuzzle);
-				if (filhos.containsKey(heuristica)) {
-					filhos.get(heuristica).add(novoPuzzle);
-				} else {
-					List<Puzzle> novo = new ArrayList<Puzzle>();
-					novo.add(novoPuzzle);
-					filhos.put(heuristica, novo);
-				}
+			novoPuzzle.setPai(puzzle);
+			int heuristica = getHeuristica(novoPuzzle);
+			if (filhos.containsKey(heuristica)) {
+				filhos.get(heuristica).add(novoPuzzle);
+			} else {
+				List<Puzzle> novo = new ArrayList<Puzzle>();
+				novo.add(novoPuzzle);
+				filhos.put(heuristica, novo);
 			}
+			
 		}
 		return filhos;
 	}
