@@ -13,6 +13,7 @@ public class PuzzleA {
 	private Puzzle        puzzle 	           = null;
 	private String        estadoDesejado       = "123405678";
 	private Puzzle 		  puzzleEstadoDesejado = null;
+	private List<String>  visitados 		   = new ArrayList<String>();
 	
 	/**
 	 * Resolve o puzzle e retorna o caminho para a resolução
@@ -34,6 +35,7 @@ public class PuzzleA {
 		if (puzzle.getFilho() == null) {
 			puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
 		}
+		System.out.println(puzzle.getFilho().getAcao());
 		return puzzle.getAcao()+" "+resolve(puzzle.getFilho());
 	}
 	
@@ -83,14 +85,15 @@ public class PuzzleA {
 		int[] posicaoLivre = puzzle.getPosicaoLivre();
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
-			int heuristica = getHeuristica(novoPuzzle);
-			
-			if (filhos.containsKey(heuristica)) {
-				filhos.get(heuristica).add(novoPuzzle);
-			} else {
-				List<Puzzle> novo = new ArrayList<Puzzle>();
-				novo.add(novoPuzzle);
-				filhos.put(heuristica, novo);
+			if (!visitados.contains(novoPuzzle.getResultadoPuzzle())) {
+				int heuristica = getHeuristica(novoPuzzle);
+				if (filhos.containsKey(heuristica)) {
+					filhos.get(heuristica).add(novoPuzzle);
+				} else {
+					List<Puzzle> novo = new ArrayList<Puzzle>();
+					novo.add(novoPuzzle);
+					filhos.put(heuristica, novo);
+				}
 			}
 		}
 		return filhos;
