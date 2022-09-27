@@ -31,7 +31,9 @@ public class PuzzleA {
 		if (puzzle.getResultadoPuzzle().equals(estadoDesejado)) {
 			return puzzle.getAcao();
 		}
-		puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
+		if (puzzle.getFilho() == null) {
+			puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
+		}
 		return puzzle.getAcao()+" "+resolve(puzzle.getFilho());
 	}
 	
@@ -56,15 +58,18 @@ public class PuzzleA {
 		if (empate.size() == 1) {
 			return empate.get(0);
 		}
-		Hashtable<Integer, Puzzle> filhosEmpate = new Hashtable<Integer, Puzzle>();
+		Hashtable<Integer, Puzzle>       filhosEmpate   = new Hashtable<Integer, Puzzle>();
+		Hashtable<Integer, List<Puzzle>> melhoresFilhos = new Hashtable<Integer, List<Puzzle>>();
 		for (Puzzle filho : empate) {
 			Hashtable<Integer, List<Puzzle>> filhos = getDescendentesPorHeuristica(filho);
 			List<Integer> keys = Collections.list(filhos.keys());
 			Collections.sort(keys);
 			filhosEmpate.put(keys.get(0), filho);
+			melhoresFilhos.put(keys.get(0), filhos.get(keys.get(0)));
 		}
 		List<Integer> keys = Collections.list(filhosEmpate.keys());
 		Collections.sort(keys);
+		filhosEmpate.get(keys.get(0)).setFilho(getMenorFilhoHeuristica(melhoresFilhos.get(keys.get(0))));
 		return filhosEmpate.get(keys.get(0));
 	}
 	
