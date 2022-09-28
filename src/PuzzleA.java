@@ -68,17 +68,12 @@ public class PuzzleA {
 			List<Integer> keys = Collections.list(filhos.keys());
 			Collections.sort(keys);
 			filhosEmpate.put(keys.get(0), filho);
-			for (int chave : keys) {
-				melhoresFilhos.put(chave, filhos.get(chave));
-			}
+			melhoresFilhos.put(keys.get(0), filhos.get(keys.get(0)));
 		}
-		List<Integer> keysEmpate = Collections.list(filhosEmpate.keys());
-		Collections.sort(keysEmpate);
-		filtraMelhoresFilhos(melhoresFilhos);
-		List<Integer> keysMelhoresFilhos = Collections.list(melhoresFilhos.keys());
-		Collections.sort(keysMelhoresFilhos);
-		filhosEmpate.get(keysEmpate.get(0)).setFilho(getMenorFilhoHeuristica(melhoresFilhos.get(keysMelhoresFilhos.get(0))));
-		return filhosEmpate.get(keysEmpate.get(0));
+		List<Integer> keys = Collections.list(filhosEmpate.keys());
+		Collections.sort(keys);
+		filhosEmpate.get(keys.get(0)).setFilho(getMenorFilhoHeuristica(melhoresFilhos.get(keys.get(0))));
+		return filhosEmpate.get(keys.get(0));
 	}
 	
 	/**
@@ -113,6 +108,11 @@ public class PuzzleA {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
 			novoPuzzle.setPai(puzzle);
 			int heuristica = getHeuristica(novoPuzzle);
+			if (novoPuzzle.getPai().getPai() != null) {
+				if (novoPuzzle.getResultadoPuzzle().equals(novoPuzzle.getPai().getPai().getResultadoPuzzle())) {
+					continue;
+				}
+			}
 			if (filhos.containsKey(heuristica)) {
 				filhos.get(heuristica).add(novoPuzzle);
 			} else {
