@@ -34,6 +34,7 @@ public class PuzzleA {
 		if (puzzle.getFilho() == null) {
 			puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
 		}
+		Main.caminho.add(puzzle.getFilho());
 		return puzzle.getAcao()+"\n"+resolve(puzzle.getFilho());
 	}
 	
@@ -177,6 +178,12 @@ public class PuzzleA {
 	public PuzzleA(Puzzle puzzle) {
 		setPuzzle(puzzle);
 		puzzleEstadoDesejado = new Puzzle(estadoDesejado);
+	}
+	
+	public PuzzleA(Puzzle puzzle, String estadoDesejado) {
+		setPuzzle(puzzle);
+		puzzleEstadoDesejado = new Puzzle(estadoDesejado);
+		this.estadoDesejado = estadoDesejado;
 	}
 
 	public Puzzle getPuzzle() {

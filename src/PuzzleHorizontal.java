@@ -53,5 +53,10 @@ public class PuzzleHorizontal {
 		visitar.add(puzzleInicial);
 	}
 	
+	public PuzzleHorizontal(Puzzle puzzleInicial, String estadoDesejado) {
+		visitar.add(puzzleInicial);
+		this.estadoDesejado = estadoDesejado;
+	}
+	
 	
 }
