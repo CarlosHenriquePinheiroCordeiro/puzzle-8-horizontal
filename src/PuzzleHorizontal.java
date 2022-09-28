@@ -5,10 +5,9 @@ import java.util.Queue;
 
 public class PuzzleHorizontal {
 	
-	private List<String>  resultados     = new ArrayList<String>();
-	private List<Puzzle>  visitados      = new ArrayList<Puzzle>();
+	private List<String>  visitados      = new ArrayList<String>();
 	private Queue<Puzzle> visitar 		 = new LinkedList<Puzzle>();
-	private String 		  estadoDesejado = "123405678";
+	private String 		  estadoDesejado = "123456780";
 	
 	/**
 	 * Dá início a resolução do Puzzle
@@ -25,19 +24,20 @@ public class PuzzleHorizontal {
 	 */
 	private String resolve(Puzzle puzzle) {
 		if (!isVisitado(puzzle)) {
+			System.out.println(puzzle.getAcao());
 			String resultadoPuzzle = puzzle.getResultadoPuzzle();
-			resultados.add(resultadoPuzzle);
+			visitados.add(resultadoPuzzle);
 			if (resultadoPuzzle.equals(estadoDesejado)) {
 				return puzzle.getAcao();
 			}
 			int[] posicaoLivre = puzzle.getPosicaoLivre();
 			for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 				Puzzle novoPuzzle = new Puzzle(resultadoPuzzle, operacoes[2], operacoes[0], operacoes[1]);
-				visitar.add(novoPuzzle);
+				if (!isVisitado(novoPuzzle))
+					visitar.add(novoPuzzle);
 			}
 		}
-		Puzzle proximo = visitar.poll();
-		return resolve(proximo);
+		return puzzle.getAcao()+"\n"+resolve(visitar.poll());
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class PuzzleHorizontal {
 	 * @return
 	 */
 	public boolean isVisitado(Puzzle puzzle) {
-		return resultados.contains(puzzle.getResultadoPuzzle());
+		return visitados.contains(puzzle.getResultadoPuzzle());
 	}
 	
 	public PuzzleHorizontal(Puzzle puzzleInicial) {

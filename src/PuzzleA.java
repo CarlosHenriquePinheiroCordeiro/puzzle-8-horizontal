@@ -11,9 +11,8 @@ import java.util.List;
 public class PuzzleA {
 
 	private Puzzle        puzzle 	           = null;
-	private String        estadoDesejado       = "123405678";
+	private String        estadoDesejado       = "123456780";
 	private Puzzle 		  puzzleEstadoDesejado = null;
-	private List<String>  visitados 		   = new ArrayList<String>();
 	
 	/**
 	 * Resolve o puzzle e retorna o caminho para a resolução
@@ -29,15 +28,13 @@ public class PuzzleA {
 	 * @return
 	 */
 	private String resolve(Puzzle puzzle) {
-		String resultado = puzzle.getResultadoPuzzle();
 		if (puzzle.getResultadoPuzzle().equals(estadoDesejado)) {
 			return puzzle.getAcao();
 		}
 		if (puzzle.getFilho() == null) {
 			puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
 		}
-		System.out.println(puzzle.getFilho().getAcao());
-		return puzzle.getAcao()+" "+resolve(puzzle.getFilho());
+		return puzzle.getAcao()+"\n"+resolve(puzzle.getFilho());
 	}
 	
 	/**
