@@ -13,8 +13,11 @@ public class PuzzleHorizontal {
 	 * Dá início a resolução do Puzzle
 	 * @return
 	 */
-	public String resolvePuzzle() {
-		return resolve(visitar.poll());
+	public Puzzle resolvePuzzle() {
+		Puzzle puzzle = visitar.poll();
+		if (puzzle.getResultadoPuzzle().equals(this.estadoDesejado))
+			return puzzle;
+		return resolve(puzzle);
 	}
 	
 	/**
@@ -22,22 +25,29 @@ public class PuzzleHorizontal {
 	 * @param puzzle
 	 * @return
 	 */
-	private String resolve(Puzzle puzzle) {
-		if (!isVisitado(puzzle)) {
-			System.out.println(puzzle.getAcao());
-			String resultadoPuzzle = puzzle.getResultadoPuzzle();
-			visitados.add(resultadoPuzzle);
-			if (resultadoPuzzle.equals(estadoDesejado)) {
-				return puzzle.getAcao();
-			}
-			int[] posicaoLivre = puzzle.getPosicaoLivre();
-			for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
-				Puzzle novoPuzzle = new Puzzle(resultadoPuzzle, operacoes[2], operacoes[0], operacoes[1]);
-				if (!isVisitado(novoPuzzle))
-					visitar.add(novoPuzzle);
+	private Puzzle resolve(Puzzle puzzle) {
+		String resultadoPuzzle = puzzle.getResultadoPuzzle();
+		visitados.add(resultadoPuzzle);
+		int[] posicaoLivre = puzzle.getPosicaoLivre();
+		int filhos = 0;
+	    Queue<Puzzle> descendentes = new LinkedList<Puzzle>();
+		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
+			Puzzle novoPuzzle = new Puzzle(resultadoPuzzle, operacoes[2], operacoes[0], operacoes[1]);
+			if (!isVisitado(novoPuzzle)) {
+				filhos++;
+				descendentes.add(novoPuzzle);
+				visitados.add(novoPuzzle.getResultadoPuzzle());
+				visitar.add(novoPuzzle);
 			}
 		}
-		return puzzle.getAcao()+"\n"+resolve(visitar.poll());
+		for (int x = 0; x < filhos; x++) {
+			Puzzle filho = descendentes.poll();
+			if (filho.getResultadoPuzzle().equals(estadoDesejado)) {
+				return filho;
+			}
+		}
+		puzzle.setFilho(resolve(visitar.poll()));
+		return puzzle;
 	}
 	
 	/**

@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * Classe responsável por representar o Puzzle
  * @author Carlos Henrique Pinheiro Cordeiro

@@ -10,9 +10,9 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+//import com.jgoodies.forms.layout.FormLayout;
+//import com.jgoodies.forms.layout.ColumnSpec;
+//import com.jgoodies.forms.layout.RowSpec;
 
 
 import javax.swing.JTable;
@@ -55,6 +55,10 @@ public class Main {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Puzzle puzzle = new Puzzle("123456078");
+		PuzzleHorizontal pz = new PuzzleHorizontal(puzzle);
+		System.out.println(pz.resolvePuzzle());
+		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -64,7 +68,7 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 	}
 
 	/**
@@ -248,7 +252,7 @@ public class Main {
 					String resultado = "";
 					if (horizontal.isSelected()) {
 						PuzzleHorizontal ph = new PuzzleHorizontal(puzzle);
-						resultado = ph.resolvePuzzle();
+						ph.resolvePuzzle();
 					}
 					if (heuristica.isSelected()) {
 						PuzzleA pa = new PuzzleA(puzzle);
