@@ -55,9 +55,13 @@ public class Main {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		Puzzle puzzle = new Puzzle("123456078");
+		Puzzle puzzle = new Puzzle("123460758");
 		PuzzleHorizontal pz = new PuzzleHorizontal(puzzle);
 		System.out.println(pz.resolvePuzzle());
+//		while (resultado.getFilho() != null) {
+//			System.out.println(resultado.getAcao());
+//			resultado = resultado.getFilho();
+//		}
 		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -88,7 +92,7 @@ public class Main {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Puzzle 8");
-		lblNewLabel.setBounds(183, 11, 46, 14);
+		lblNewLabel.setBounds(190, 16, 50, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
 		inicial11 = new JTextField();
@@ -137,7 +141,7 @@ public class Main {
 		frame.getContentPane().add(inicial33);
 		
 		JRadioButton horizontal = new JRadioButton("Busca Horizontal");
-		horizontal.setBounds(33, 211, 109, 23);
+		horizontal.setBounds(33, 211, 125, 23);
 		frame.getContentPane().add(horizontal);
 		
 		JRadioButton heuristica = new JRadioButton("Heurística A*");
@@ -161,7 +165,7 @@ public class Main {
 		});
 		
 		JLabel metodoBusca = new JLabel("Método de Busca:");
-		metodoBusca.setBounds(33, 190, 97, 14);
+		metodoBusca.setBounds(33, 190, 105, 14);
 		frame.getContentPane().add(metodoBusca);
 		
 		JLabel labelInicial = new JLabel("Informe o estado inicial:");
@@ -240,7 +244,7 @@ public class Main {
 		frame.getContentPane().add(resolver);
 		
 		lblInsiraNo = new JLabel("Insira 0 no espaço vazio!");
-		lblInsiraNo.setBounds(33, 48, 137, 14);
+		lblInsiraNo.setBounds(33, 48, 140, 14);
 		frame.getContentPane().add(lblInsiraNo);
 		resolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

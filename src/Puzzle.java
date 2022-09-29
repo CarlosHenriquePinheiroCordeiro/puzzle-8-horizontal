@@ -10,12 +10,13 @@ import java.util.Queue;
  */
 public class Puzzle {
 
-	private int[][] puzzle       = new int[3][3];
-	private int[] posicaoLivre   = null;
-	private String resultado     = null; 
-	private String acao 	     = "";
-	private Puzzle pai 			 = null;
-	private Puzzle filho 	     = null;
+	private int[][] puzzle       		= new int[3][3];
+	private int[] posicaoLivre   		= null;
+	private String resultado     		= null; 
+	private String acao 	     		= "";
+	private Puzzle pai 			 		= null;
+	private Puzzle filho 	     		= null;
+	private Queue<Puzzle> descendentes  = new LinkedList<Puzzle>();
 	
 	/**
 	 * Gera um puzzle a partir de um resultado mostrado
@@ -238,6 +239,14 @@ public class Puzzle {
 
 	public void setAcao(String acao) {
 		this.acao = acao;
+	}
+
+	public Queue<Puzzle> getDescendentes() {
+		return descendentes;
+	}
+
+	public void setDescendentes(Queue<Puzzle> descendentes) {
+		this.descendentes = descendentes;
 	}
 
 	
