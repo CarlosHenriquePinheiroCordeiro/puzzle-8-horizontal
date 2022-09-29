@@ -5,11 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+
 //import com.jgoodies.forms.layout.FormLayout;
 //import com.jgoodies.forms.layout.ColumnSpec;
 //import com.jgoodies.forms.layout.RowSpec;
@@ -50,19 +53,13 @@ public class Main {
 	private JTextField final33;
 	private JLabel lblInsiraNo;
 	public static List<Puzzle> caminho = new ArrayList<Puzzle>();
+	public static int nodosVisitados   = 0;
+	public static int nodosGerados 	   = 0;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		Puzzle puzzle = new Puzzle("123460758");
-		PuzzleHorizontal pz = new PuzzleHorizontal(puzzle);
-		System.out.println(pz.resolvePuzzle());
-//		while (resultado.getFilho() != null) {
-//			System.out.println(resultado.getAcao());
-//			resultado = resultado.getFilho();
-//		}
-		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -72,7 +69,7 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 	}
 
 	/**
@@ -252,16 +249,29 @@ public class Main {
 					String estadoInicial = inicial11.getText()+inicial12.getText()+inicial13.getText()
 										  +inicial21.getText()+inicial22.getText()+inicial23.getText()
 										  +inicial31.getText()+inicial32.getText()+inicial33.getText();
-					Puzzle puzzle    = new Puzzle(estadoInicial);
-					String resultado = "";
+					Puzzle puzzle = new Puzzle(estadoInicial);
 					if (horizontal.isSelected()) {
 						PuzzleHorizontal ph = new PuzzleHorizontal(puzzle);
 						ph.resolvePuzzle();
+						Puzzle nodoFinal = caminho.get(0);
+						Deque<String> caminho = new ArrayDeque<String>();
+						do {
+							caminho.add(nodoFinal.getAcao());
+							nodoFinal = nodoFinal.getPai();
+						} while (nodoFinal != null);
+						System.out.print("Busca Horizontal: Nodos Gerados - "+nodosGerados+" | Nodos Visitados: "+nodosVisitados+"\n");
+						System.out.print("Caminho da resolução:");
+						while (caminho.size() != 0) {
+							System.out.print(caminho.pollLast()+"\n");
+						}
 					}
 					if (heuristica.isSelected()) {
 						PuzzleA pa = new PuzzleA(puzzle);
-						System.out.print(pa.resolvePuzzle());
+						pa.resolvePuzzle();
+						System.out.print("Heurísitca A*: Nodos Gerados - "+nodosGerados+" | Nodos Visitados: "+nodosVisitados+"\n");
+						System.out.print("Caminho da resolução:");
 			 			for (Puzzle passo : caminho) {
+			 				System.out.print("\n"+passo.getAcao());
 							inicial11.setText(""+passo.getPuzzle()[0][0]);
 							inicial12.setText(""+passo.getPuzzle()[0][1]);
 							inicial13.setText(""+passo.getPuzzle()[0][2]);
@@ -274,9 +284,13 @@ public class Main {
 						}
 					}
 					caminho.clear();
+					nodosGerados   = 0;
+					nodosVisitados = 0;
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					caminho.clear();
+					nodosGerados   = 0;
+					nodosVisitados = 0;
 				}
 			}
 		});

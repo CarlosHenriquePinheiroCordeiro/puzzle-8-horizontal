@@ -35,6 +35,7 @@ public class PuzzleA {
 			puzzle.setFilho(getFilhoHeuristicaPuzzle(puzzle));
 		}
 		Main.caminho.add(puzzle.getFilho());
+		Main.nodosVisitados++;
 		return puzzle.getAcao()+"\n"+resolve(puzzle.getFilho());
 	}
 	
@@ -75,26 +76,6 @@ public class PuzzleA {
 	}
 	
 	/**
-	 * Filtra os melhores filhos para um desempate, para evitar o loop de "vai e volta" de operações
-	 * @param melhoresFilhos
-	 * @return
-	 */
-	private Hashtable<Integer, List<Puzzle>> filtraMelhoresFilhos(Hashtable<Integer, List<Puzzle>> melhoresFilhos) {
-		for (int chave : Collections.list(melhoresFilhos.keys())) {
-			int tamanho = melhoresFilhos.get(chave).size();
-			for (int i = 0; i < tamanho; i++) {
-				if (melhoresFilhos.get(chave).get(i).getResultadoPuzzle().equals(melhoresFilhos.get(chave).get(i).getPai().getPai().getResultadoPuzzle())) {
-					melhoresFilhos.get(chave).remove(i);
-				}
-			}
-			if (melhoresFilhos.get(chave).isEmpty()) {
-				melhoresFilhos.remove(chave);
-			}
-		}
-		return melhoresFilhos;
-	}
-	
-	/**
 	 * Retorna os descentendes classificados por heurística
 	 * @param puzzle
 	 * @return
@@ -105,6 +86,7 @@ public class PuzzleA {
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(puzzle.getResultadoPuzzle(), operacoes[2], operacoes[0], operacoes[1]);
 			novoPuzzle.setPai(puzzle);
+			Main.nodosGerados++;
 			int heuristica = getHeuristica(novoPuzzle);
 			if (novoPuzzle.getPai().getPai() != null) {
 				if (novoPuzzle.getResultadoPuzzle().equals(novoPuzzle.getPai().getPai().getResultadoPuzzle())) {

@@ -13,11 +13,12 @@ public class PuzzleHorizontal {
 	 * Dá início a resolução do Puzzle
 	 * @return
 	 */
-	public String resolvePuzzle() {
+	public void resolvePuzzle() {
 		Puzzle puzzle = visitar.poll();
 		if (puzzle.getResultadoPuzzle().equals(this.estadoDesejado))
-			return puzzle.getAcao();
-		return resolve(puzzle);
+			Main.caminho.add(puzzle);
+		else
+			resolve(puzzle);
 	}
 	
 	/**
@@ -25,23 +26,27 @@ public class PuzzleHorizontal {
 	 * @param puzzle
 	 * @return
 	 */
-	private String resolve(Puzzle puzzle) {
+	private boolean resolve(Puzzle puzzle) {
 		String resultadoPuzzle = puzzle.getResultadoPuzzle();
 		visitados.add(resultadoPuzzle);
 		int[] posicaoLivre = puzzle.getPosicaoLivre();
 		for (int[] operacoes : Operacoes.getInstance().get(posicaoLivre[0]).get(posicaoLivre[1])) {
 			Puzzle novoPuzzle = new Puzzle(resultadoPuzzle, operacoes[2], operacoes[0], operacoes[1]);
 			String novoResultado = novoPuzzle.getResultadoPuzzle();
+			Main.nodosGerados++;
+			Main.nodosVisitados++;
 			if (!isVisitado(novoResultado)) {
 				novoPuzzle.setPai(puzzle);
 				if (novoResultado.equals(estadoDesejado)) {
-					return novoPuzzle.getAcao();
+					Main.caminho.add(novoPuzzle);
+					return true;
+				} else {
+					visitados.add(novoResultado);
+					visitar.add(novoPuzzle);
 				}
-				visitados.add(novoResultado);
-				visitar.add(novoPuzzle);
 			}
 		}
-		return puzzle.getAcao()+"\n"+resolve(visitar.poll());
+		return resolve(visitar.poll());
 	}
 	
 	/**
