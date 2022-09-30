@@ -256,6 +256,15 @@ public class Main {
 						ph.resolvePuzzle();
 						long tempoFinal = System.currentTimeMillis();
 						Puzzle nodoFinal = caminho.get(0);
+						inicial11.setText(""+nodoFinal.getPuzzle()[0][0]);
+						inicial12.setText(""+nodoFinal.getPuzzle()[0][1]);
+						inicial13.setText(""+nodoFinal.getPuzzle()[0][2]);
+						inicial21.setText(""+nodoFinal.getPuzzle()[1][0]);
+						inicial22.setText(""+nodoFinal.getPuzzle()[1][1]);
+						inicial23.setText(""+nodoFinal.getPuzzle()[1][2]);
+						inicial31.setText(""+nodoFinal.getPuzzle()[2][0]);
+						inicial32.setText(""+nodoFinal.getPuzzle()[2][1]);
+						inicial33.setText(""+nodoFinal.getPuzzle()[2][2]);
 						Deque<String> caminho = new ArrayDeque<String>();
 						do {
 							caminho.add(nodoFinal.getAcao());
